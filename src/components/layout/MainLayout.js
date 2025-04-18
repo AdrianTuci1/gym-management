@@ -3,6 +3,7 @@ import { Box, styled } from '@mui/material';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import Dashboard from '../../pages/Dashboard';
+import HistoryView from '../History/HistoryView';
 
 const MainContent = styled(Box)({
   display: 'flex',
@@ -26,6 +27,10 @@ const ContentWrapper = styled(Box)({
 const ContentContainer = styled(Box)({
   width: '100%',
   height: '100%',
+  backgroundColor: '#ffffff',
+  borderRadius: '8px',
+  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+  padding: '20px',
 });
 
 const MainLayout = () => {
@@ -48,10 +53,9 @@ const MainLayout = () => {
         );
       case 'history':
         return (
-          <ContentContainer>
-            <h2>Istoric</h2>
-            <p>Conținut pentru secțiunea de istoric</p>
-          </ContentContainer>
+          <Box sx={{ width: '100%', height: '100%' }}>
+            <HistoryView />
+          </Box>
         );
       case 'packages':
         return (
