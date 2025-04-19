@@ -4,6 +4,8 @@ import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import Dashboard from '../../pages/Dashboard';
 import HistoryView from '../History/HistoryView';
+import PackagesView from '../Packages/PackagesView';
+import AssistantsView from '../Assistants/AssistantsView';
 
 const MainContent = styled(Box)({
   display: 'flex',
@@ -45,12 +47,7 @@ const MainLayout = () => {
       case 'dashboard':
         return <Dashboard />;
       case 'automation':
-        return (
-          <ContentContainer>
-            <h2>Automatizări</h2>
-            <p>Conținut pentru secțiunea de automatizări</p>
-          </ContentContainer>
-        );
+        return <AssistantsView />;
       case 'history':
         return (
           <Box sx={{ width: '100%', height: '100%' }}>
@@ -59,17 +56,16 @@ const MainLayout = () => {
         );
       case 'packages':
         return (
-          <ContentContainer>
-            <h2>Pachete</h2>
-            <p>Conținut pentru secțiunea de pachete</p>
-          </ContentContainer>
+          <Box sx={{ width: '100%', height: '100%', backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', padding: '20px' }}>
+            <PackagesView />
+          </Box>
         );
       case 'settings':
         return (
-          <ContentContainer>
+          <Box sx={{ width: '100%', height: '100%', backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', padding: '20px' }}>
             <h2>Setări</h2>
             <p>Conținut pentru secțiunea de setări</p>
-          </ContentContainer>
+          </Box>
         );
       default:
         return <Dashboard />;
