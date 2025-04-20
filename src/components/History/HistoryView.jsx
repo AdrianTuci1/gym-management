@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { 
   Box, 
   Typography, 
   Paper, 
   styled, 
-  TextField, 
   List, 
   ListItem, 
   ListItemText, 
@@ -14,7 +13,6 @@ import {
   Chip, 
   Collapse, 
   IconButton, 
-  Button 
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import ClassIcon from '@mui/icons-material/Class';
@@ -22,11 +20,8 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import BuildIcon from '@mui/icons-material/Build';
 import AssessmentIcon from '@mui/icons-material/Assessment';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import CategoryIcon from '@mui/icons-material/Category';
 import TimeframeView from './TimeframeView/TimeframeView';
 
 const HistoryContainer = styled(Paper)(({ theme }) => ({
@@ -39,19 +34,7 @@ const HistoryContainer = styled(Paper)(({ theme }) => ({
   overflow: 'hidden',
 }));
 
-const Header = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(2),
-  borderBottom: `1px solid ${theme.palette.divider}`,
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-}));
 
-const Controls = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  gap: theme.spacing(2),
-  alignItems: 'center',
-}));
 
 const HistoryListContainer = styled(Box)({
   flex: 1,
@@ -264,17 +247,6 @@ const HistoryView = () => {
 
   return (
     <HistoryContainer>
-      <Header>
-        <Typography variant="h6">Istoric Activități</Typography>
-        <TextField 
-          size="small"
-          variant="outlined"
-          placeholder="Caută în istoric..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          sx={{ width: '300px' }}
-        />
-      </Header>
 
       <HistoryListContainer>
         <List disablePadding>

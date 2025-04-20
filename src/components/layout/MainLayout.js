@@ -20,20 +20,11 @@ const MainContent = styled(Box)({
 const ContentWrapper = styled(Box)({
   display: 'flex',
   flexGrow: 1,
-  marginLeft: '64px', // Same as sidebar width
+  marginLeft: '80px', // Same as sidebar width
   height: 'calc(100vh - 64px)', // Subtract navbar height
   overflow: 'auto',
-  padding: '20px',
 });
 
-const ContentContainer = styled(Box)({
-  width: '100%',
-  height: '100%',
-  backgroundColor: '#ffffff',
-  borderRadius: '8px',
-  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-  padding: '20px',
-});
 
 const MainLayout = () => {
   const [activeComponent, setActiveComponent] = useState('dashboard');
