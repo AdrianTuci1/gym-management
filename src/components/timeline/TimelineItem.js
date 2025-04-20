@@ -1,49 +1,39 @@
 import React from 'react';
-import { Box, Typography, Avatar, styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 
 const ItemContainer = styled(Box)({
-  display: 'flex',
-  alignItems: 'center',
-  padding: '10px',
-  marginBottom: '8px',
-  borderRadius: '8px',
-  backgroundColor: '#f8f9fa',
-  cursor: 'pointer',
-  transition: 'background-color 0.2s',
   position: 'relative',
-  '&:hover': {
-    backgroundColor: '#e9ecef',
-  },
-});
-
-const NameContainer = styled(Box)({
-  width: '200px',
+  height: '60px',
   display: 'flex',
   alignItems: 'center',
-  paddingRight: '16px',
-});
-
-const StyledAvatar = styled(Avatar)({
-  width: '40px',
-  height: '40px',
-  marginRight: '12px',
-  backgroundColor: '#1a1a1a',
+  width: '100%',
 });
 
 const TimelineBar = styled(Box)({
   height: '44px',
-  backgroundColor: '#e9ecef',
+  backgroundColor: '#e6ecef',
   borderRadius: '4px',
   position: 'relative',
   overflow: 'visible',
+  width: '100%',
 });
 
 const DurationBar = styled(Box)({
   position: 'absolute',
-  top: 0,
+  top: '2px',
   height: '40px',
-  backgroundColor: '#1a1a1a',
+  backgroundColor: 'rgba(25, 118, 210, 0.1)',
+  borderLeft: '2px solid #1976d2',
+  borderRight: '2px solid #1976d2',
   borderRadius: '4px',
+  display: 'flex',
+  alignItems: 'center',
+  padding: '0 8px',
+  cursor: 'pointer',
+  transition: 'background-color 0.2s',
+  '&:hover': {
+    backgroundColor: 'rgba(25, 118, 210, 0.2)',
+  },
 });
 
 const TimeDot = styled(Box)({
@@ -53,7 +43,7 @@ const TimeDot = styled(Box)({
   width: '12px',
   height: '12px',
   borderRadius: '50%',
-  backgroundColor: '#1a1a1a',
+  backgroundColor: '#1976d2',
   '&::after': {
     content: '""',
     position: 'absolute',
@@ -76,33 +66,45 @@ const TimeLabel = styled(Box)({
   color: '#666',
   whiteSpace: 'nowrap',
   backgroundColor: '#ffffff',
-  padding: '2px 2px',
+  padding: '2px 4px',
   borderRadius: '4px',
   boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
 });
 
-const TimelineItem = ({ member, zoomLevel }) => {
-  const [checkInHours, checkInMinutes] = member.checkIn.split(':').map(Number);
-  const [checkOutHours, checkOutMinutes] = member.checkOut.split(':').map(Number);
-  
-  const checkInPosition = ((checkInHours - 8) * 60 + checkInMinutes) * zoomLevel;
-  const duration = ((checkOutHours - checkInHours) * 60 + (checkOutMinutes - checkInMinutes)) * zoomLevel;
+const TimelineItem = ({ member, zoomLevel, timeRange }) => {
+  const parseTime = (timeStr) => {
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    return hours * 60 + minutes;
+  };
+
+  const getPosition = (time) => {
+    const minutes = parseTime(time);
+    const startMinutes = timeRange.start * 60;
+    return (minutes - startMinutes) * zoomLevel;
+  };
+
+  const getWidth = () => {
+    const startMinutes = parseTime(member.checkIn);
+    const endMinutes = parseTime(member.checkOut);
+    return (endMinutes - startMinutes) * zoomLevel;
+  };
 
   return (
     <ItemContainer>
       <TimelineBar>
         <DurationBar
           style={{
-            left: `${checkInPosition}px`,
-            width: `${duration}px`,
+            left: `${getPosition(member.checkIn)}px`,
+            width: `${getWidth()}px`,
           }}
-        />
-        <TimeDot style={{ left: `${checkInPosition}px` }}>
-          <TimeLabel>{member.checkIn}</TimeLabel>
-        </TimeDot>
-        <TimeDot style={{ left: `${checkInPosition + duration}px` }}>
-          <TimeLabel>{member.checkOut}</TimeLabel>
-        </TimeDot>
+        >
+          <TimeDot style={{ left: '0' }}>
+            <TimeLabel>{member.checkIn}</TimeLabel>
+          </TimeDot>
+          <TimeDot style={{ right: '0' }}>
+            <TimeLabel>{member.checkOut}</TimeLabel>
+          </TimeDot>
+        </DurationBar>
       </TimelineBar>
     </ItemContainer>
   );

@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-import { Box, styled, IconButton, Typography } from '@mui/material';
+import React, { useState, useCallback } from 'react';
+import { Box, styled } from '@mui/material';
 import SplitPane from 'react-split-pane';
-import TimelineIcon from '@mui/icons-material/Timeline';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Timeline from '../components/timeline/Timeline';
 import CourseList from '../components/courses/CourseList';
 import OccupancyIndicator from '../components/courses/OccupancyIndicator';
+import NavigationMenuComponent from '../components/navigation/NavigationMenu';
 
 const DashboardContainer = styled(Box)({
   width: '100%',
@@ -15,63 +13,22 @@ const DashboardContainer = styled(Box)({
   flexDirection: 'column',
 });
 
-const MenuSection = styled(Box)({
-  display: 'flex',
-  justifyContent: 'flex-start',
-  borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
-  backgroundColor: '#ffffff',
-});
-
 const ContentSection = styled(Box)({
   flex: 1,
   position: 'relative',
 });
 
-const NavigationMenu = styled(Box)({
-  display: 'flex',
-  gap: '16px',
-  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
-  backdropFilter: 'blur(8px)',
-  zIndex: 1000,
-  border: '1px solid rgba(0, 0, 0, 0.05)',
-  margin: '8px 0',
-  paddingLeft: '16px',
-});
-
-const NavIcon = styled(IconButton)({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#666',
-  width: '48px',
-  height: '48px',
-  transition: 'all 0.2s ease',
-  '&:hover': {
-    backgroundColor: 'rgba(0, 0, 0, 0.03)',
-    transform: 'translateY(-2px)',
-  },
-  '&.active': {
-    color: '#1a1a1a',
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    '& svg': {
-      transform: 'scale(1.1)',
-    },
-  },
-  '& svg': {
-    transition: 'transform 0.2s ease',
-  },
-});
-
-const NavLabel = styled(Typography)({
-  fontSize: '12px',
-  fontWeight: 500,
-  color: 'inherit',
-  transition: 'color 0.2s ease',
-});
-
 // Content Components
 const DashboardContent = ({ content }) => {
+  const [size, setSize] = useState('75%');
+  
+  const handleResize = useCallback((newSize) => {
+    // Debounce the resize operation
+    setTimeout(() => {
+      setSize(newSize);
+    }, 200);
+  }, []);
+
   const PaneContainer = styled(Box)({
     height: '100%',
     padding: '16px',
@@ -123,7 +80,8 @@ const DashboardContent = ({ content }) => {
     <SplitPane
       split="vertical"
       minSize={200}
-      defaultSize="80%"
+      defaultSize={size}
+      onChange={handleResize}
       resizerStyle={{
         width: '4px',
         backgroundColor: '#e0e0e0',
@@ -166,29 +124,7 @@ const Dashboard = () => {
 
   return (
     <DashboardContainer>
-      <MenuSection>
-        <NavigationMenu>
-          <NavIcon 
-            className={activeMenu === 'timeline' ? 'active' : ''}
-            onClick={() => setActiveMenu('timeline')}
-          >
-            <TimelineIcon />
-          </NavIcon>
-          <NavIcon 
-            className={activeMenu === 'sales' ? 'active' : ''}
-            onClick={() => setActiveMenu('sales')}
-          >
-            <AttachMoneyIcon />
-          </NavIcon>
-          <NavIcon 
-            className={activeMenu === 'add' ? 'active' : ''}
-            onClick={() => setActiveMenu('add')}
-          >
-            <PersonAddIcon />
-          </NavIcon>
-        </NavigationMenu>
-      </MenuSection>
-      
+      <NavigationMenuComponent activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
       <ContentSection>
         <DashboardContent content={renderContent()} />
       </ContentSection>

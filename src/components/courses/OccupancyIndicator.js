@@ -8,8 +8,6 @@ const IndicatorContainer = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   gap: '12px',
-  marginTop: '16px',
-  padding: '16px',
   backgroundColor: '#f8f9fa',
   borderRadius: '8px',
 });
