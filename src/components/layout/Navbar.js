@@ -1,10 +1,10 @@
 import React from 'react';
 import { AppBar, Toolbar, IconButton, styled } from '@mui/material';
 import {
-  Notifications as NotificationsIcon,
   Person as PersonIcon,
   FitnessCenter as FitnessCenterIcon,
 } from '@mui/icons-material';
+import NotificationMenu from '../notifications/NotificationMenu';
 
 const StyledAppBar = styled(AppBar)({
   backgroundColor: '#ffffff',
@@ -24,9 +24,7 @@ const Navbar = () => {
       <Toolbar>
         <LogoIcon />
         <div style={{ flexGrow: 1 }} />
-        <IconButton color="inherit">
-          <NotificationsIcon />
-        </IconButton>
+        <NotificationMenu />
         <IconButton color="inherit">
           <PersonIcon />
         </IconButton>

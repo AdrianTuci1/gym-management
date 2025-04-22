@@ -1,6 +1,11 @@
-import React from 'react';
-import { Box, Typography, Paper, styled } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Typography, Paper, styled, ToggleButton, ToggleButtonGroup, Divider } from '@mui/material';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import GroupIcon from '@mui/icons-material/Group';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import EventIcon from '@mui/icons-material/Event';
 import CourseCard from './CourseCard';
+import { mockCourses, mockTrainers } from '../../data/mockData';
 
 const CourseListContainer = styled(Paper)({
   padding: '20px',
@@ -14,59 +19,118 @@ const SectionTitle = styled(Typography)({
   fontWeight: 'bold',
 });
 
-const mockCourses = {
-  ongoing: [
-    {
-      id: 1,
-      title: 'Yoga',
-      instructor: 'Ana Popescu',
-      time: '10:00 - 11:00',
-      participants: 8,
-      capacity: 12,
+const ViewSwitcher = styled(ToggleButtonGroup)({
+  marginBottom: '16px',
+  display: 'flex',
+  justifyContent: 'flex-start',
+  gap: '8px',
+});
+
+const ViewButton = styled(ToggleButton)({
+  padding: '8px',
+  minWidth: '40px',
+  '&.Mui-selected': {
+    backgroundColor: '#1976d2',
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#1565c0',
     },
-    {
-      id: 2,
-      title: 'Pilates',
-      instructor: 'Mihai Ionescu',
-      time: '11:30 - 12:30',
-      participants: 6,
-      capacity: 10,
-    },
-  ],
-  upcoming: [
-    {
-      id: 3,
-      title: 'HIIT',
-      instructor: 'Alex Dumitrescu',
-      time: '13:00 - 14:00',
-      participants: 5,
-      capacity: 15,
-    },
-    {
-      id: 4,
-      title: 'Zumba',
-      instructor: 'Elena Stoica',
-      time: '14:30 - 15:30',
-      participants: 3,
-      capacity: 20,
-    },
-  ],
-};
+  },
+});
+
+const Separator = styled(Divider)({
+  margin: '16px 0',
+});
+
+const TrainerCard = styled(Paper)({
+  padding: '16px',
+  marginBottom: '16px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '16px',
+});
+
+const TrainerInfo = styled(Box)({
+  flex: 1,
+});
+
+const TrainerImage = styled('img')({
+  width: '60px',
+  height: '60px',
+  borderRadius: '50%',
+  objectFit: 'cover',
+});
+
+const SectionHeader = styled(Box)({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  marginBottom: '16px',
+});
 
 const CourseList = () => {
+  const [view, setView] = useState('courses');
+
+  const handleViewChange = (event, newView) => {
+    if (newView !== null) {
+      setView(newView);
+    }
+  };
+
   return (
     <CourseListContainer>
-      <SectionTitle variant="h6">Cursuri în desfășurare</SectionTitle>
-      {mockCourses.ongoing.map((course) => (
-        <CourseCard key={course.id} course={course} isOngoing={true} />
-      ))}
+      <ViewSwitcher
+        value={view}
+        exclusive
+        onChange={handleViewChange}
+        aria-label="view switcher"
+      >
+        <ViewButton value="courses" aria-label="courses view">
+          <FitnessCenterIcon />
+        </ViewButton>
+        <ViewButton value="trainers" aria-label="trainers view">
+          <GroupIcon />
+        </ViewButton>
+      </ViewSwitcher>
 
-      <SectionTitle variant="h6" sx={{ mt: 4 }}>
-        Cursuri următoare
-      </SectionTitle>
-      {mockCourses.upcoming.map((course) => (
-        <CourseCard key={course.id} course={course} isOngoing={false} />
-      ))}
+      <Separator />
+
+      {view === 'courses' ? (
+        <>
+          <SectionHeader>
+            <AccessTimeIcon color="primary" />
+            <Typography variant="h6">În desfășurare</Typography>
+          </SectionHeader>
+          {mockCourses.ongoing.map((course) => (
+            <CourseCard key={course.id} course={course} isOngoing={true} />
+          ))}
+
+          <SectionHeader sx={{ mt: 4 }}>
+            <EventIcon color="primary" />
+            <Typography variant="h6">Următoare</Typography>
+          </SectionHeader>
+          {mockCourses.upcoming.map((course) => (
+            <CourseCard key={course.id} course={course} isOngoing={false} />
+          ))}
+        </>
+      ) : (
+        <>
+          {mockTrainers.map((trainer) => (
+            <TrainerCard key={trainer.id} elevation={1}>
+              <TrainerImage src={trainer.image} alt={trainer.name} />
+              <TrainerInfo>
+                <Typography variant="h6">{trainer.name}</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {trainer.specialization}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Experiență: {trainer.experience} • Rating: {trainer.rating}
+                </Typography>
+              </TrainerInfo>
+            </TrainerCard>
+          ))}
+        </>
+      )}
     </CourseListContainer>
   );
 };

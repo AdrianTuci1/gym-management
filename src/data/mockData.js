@@ -144,4 +144,78 @@ export const mockMembers = [
       expiresAt: '2024-06-15'
     }
   }
+];
+
+export const mockCourses = {
+  ongoing: [
+    {
+      id: 1,
+      title: 'Yoga',
+      instructor: 'Ana Popescu',
+      time: '10:00 - 11:00',
+      participants: 8,
+      capacity: 12,
+    },
+    {
+      id: 2,
+      title: 'Pilates',
+      instructor: 'Mihai Ionescu',
+      time: '11:30 - 12:30',
+      participants: 6,
+      capacity: 10,
+    },
+  ],
+  upcoming: [
+    {
+      id: 3,
+      title: 'HIIT',
+      instructor: 'Alex Dumitrescu',
+      time: '13:00 - 14:00',
+      participants: 5,
+      capacity: 15,
+    },
+    {
+      id: 4,
+      title: 'Zumba',
+      instructor: 'Elena Stoica',
+      time: '14:30 - 15:30',
+      participants: 3,
+      capacity: 20,
+    },
+  ],
+};
+
+export const mockTrainers = [
+  {
+    id: 1,
+    name: 'Ana Popescu',
+    specialization: 'Yoga, Pilates',
+    experience: '5 ani',
+    rating: 4.8,
+    image: 'https://randomuser.me/api/portraits/women/1.jpg',
+  },
+  {
+    id: 2,
+    name: 'Mihai Ionescu',
+    specialization: 'Pilates, Fitness',
+    experience: '7 ani',
+    rating: 4.9,
+    image: 'https://randomuser.me/api/portraits/men/1.jpg',
+  },
+  {
+    id: 3,
+    name: 'Alex Dumitrescu',
+    specialization: 'HIIT, CrossFit',
+    experience: '4 ani',
+    rating: 4.7,
+    image: 'https://randomuser.me/api/portraits/men/2.jpg',
+  },
+  {
+    id: 4,
+    name: 'Elena Stoica',
+    specialization: 'Zumba, Dans',
+    experience: '6 ani',
+    rating: 4.9,
+    image: 'https://randomuser.me/api/portraits/women/2.jpg',
+  },
 ]; 

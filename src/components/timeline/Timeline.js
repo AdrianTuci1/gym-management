@@ -45,7 +45,7 @@ const TimeIndicators = styled(Box)({
   backgroundColor: '#ffffff',
   zIndex: 2,
   height: '40px',
-  paddingLeft: '200px',
+  paddingLeft: '160px',
 });
 
 const TimeIndicator = styled(Box)({
@@ -89,6 +89,21 @@ const NamesColumn = styled(Box)({
 const TimelineColumn = styled(Box)({
   flex: 1,
   position: 'relative',
+});
+
+const NoDataMessage = styled(Box)({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '100%',
+  color: '#666',
+  fontSize: '16px',
+  fontStyle: 'italic',
+  width: '100%',
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
 });
 
 const MemberRow = styled(Box)({
@@ -246,55 +261,61 @@ const Timeline = () => {
 
   return (
     <TimelineContainer>
-      <ScrollContainer 
-        ref={scrollContainerRef}
-        onScroll={handleScroll}
-      >
-        <TimelineContent>
-          <TimeIndicators>
-            <Box style={{ display: 'flex', width: `${totalWidth}px` }}>
-              {getTimeRange().map((hour) => (
-                <TimeIndicator 
-                  key={hour} 
-                  style={{ 
-                    width: `${60 * zoomLevel}px`,
-                  }}
-                >
-                  <TimeLabel>{hour}:00</TimeLabel>
-                  <TimeLine />
-                </TimeIndicator>
-              ))}
-            </Box>
-          </TimeIndicators>
-          <ContentRow>
-            <NamesColumn>
-              {visibleMembers.map((member) => (
-                <MemberRow key={member.id}>
-                  <MemberContainer member={member} />
-                </MemberRow>
-              ))}
-            </NamesColumn>
-            <TimelineColumn>
-              <Box style={{ position: 'relative', width: `${totalWidth}px` }}>
-                <CurrentTimeIndicator
-                  style={{
-                    left: `${((currentTime.getHours() - timeRange.start) * 60 + currentTime.getMinutes()) * zoomLevel}px`,
-                  }}
-                />
-                {visibleMembers.map((member) => (
-                  <MemberRow key={member.id}>
-                    <TimelineItem 
-                      member={member} 
-                      zoomLevel={zoomLevel}
-                      timeRange={timeRange}
+      {visibleMembers.length > 0 ? (
+        <>
+          <ScrollContainer 
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+          >
+            <TimelineContent>
+              <TimeIndicators>
+                <Box style={{ display: 'flex', width: `${totalWidth}px` }}>
+                  {getTimeRange().map((hour) => (
+                    <TimeIndicator 
+                      key={hour} 
+                      style={{ 
+                        width: `${60 * zoomLevel}px`,
+                      }}
+                    >
+                      <TimeLabel>{hour}:00</TimeLabel>
+                      <TimeLine />
+                    </TimeIndicator>
+                  ))}
+                </Box>
+              </TimeIndicators>
+              <ContentRow>
+                <NamesColumn>
+                  {visibleMembers.map((member) => (
+                    <MemberRow key={member.id}>
+                      <MemberContainer member={member} />
+                    </MemberRow>
+                  ))}
+                </NamesColumn>
+                <TimelineColumn>
+                  <Box style={{ position: 'relative', width: `${totalWidth}px` }}>
+                    <CurrentTimeIndicator
+                      style={{
+                        left: `${((currentTime.getHours() - timeRange.start) * 60 + currentTime.getMinutes()) * zoomLevel}px`,
+                      }}
                     />
-                  </MemberRow>
-                ))}
-              </Box>
-            </TimelineColumn>
-          </ContentRow>
-        </TimelineContent>
-      </ScrollContainer>
+                    {visibleMembers.map((member) => (
+                      <MemberRow key={member.id}>
+                        <TimelineItem 
+                          member={member} 
+                          zoomLevel={zoomLevel}
+                          timeRange={timeRange}
+                        />
+                      </MemberRow>
+                    ))}
+                  </Box>
+                </TimelineColumn>
+              </ContentRow>
+            </TimelineContent>
+          </ScrollContainer>
+        </>
+      ) : (
+        <NoDataMessage>Nu există date disponibile</NoDataMessage>
+      )}
     </TimelineContainer>
   );
 };

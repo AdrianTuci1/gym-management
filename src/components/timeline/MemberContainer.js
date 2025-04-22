@@ -5,6 +5,7 @@ import DiamondIcon from '@mui/icons-material/Diamond';
 import ShieldIcon from '@mui/icons-material/Shield';
 import HandymanIcon from '@mui/icons-material/Handyman';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
+import MemberRow from './MemberRow';
 
 const Container = styled(Box)({
   display: 'flex',
@@ -69,31 +70,33 @@ const MemberContainer = ({ member }) => {
   const label = subscriptionLabels[subscriptionType];
 
   return (
-    <Container>
-      <Avatar 
-        sx={{ 
-          width: 36, 
-          height: 36, 
-          mr: 1.5,
-          flexShrink: 0,
-          backgroundColor: subscriptionType === 'gold' ? 'gold' : 
-                          subscriptionType === 'silver' ? '#b0c4de' :
-                          subscriptionType === 'black' ? '#333' :
-                          subscriptionType === 'service' ? '#8b5cf6' : '#757575'
-        }}
-      >
-        {member.avatar}
-      </Avatar>
-      <InfoContainer>
-        <MemberName>{member.name}</MemberName>
-        <Tooltip title={`Tip abonament: ${label}`}>
-          <SubscriptionInfo>
-            {Icon}
-            {label}
-          </SubscriptionInfo>
-        </Tooltip>
-      </InfoContainer>
-    </Container>
+    <MemberRow member={member}>
+      <Container>
+        <Avatar 
+          sx={{ 
+            width: 36, 
+            height: 36, 
+            mr: 1.5,
+            flexShrink: 0,
+            backgroundColor: subscriptionType === 'gold' ? 'gold' : 
+                            subscriptionType === 'silver' ? '#b0c4de' :
+                            subscriptionType === 'black' ? '#333' :
+                            subscriptionType === 'service' ? '#8b5cf6' : '#757575'
+          }}
+        >
+          {member.avatar}
+        </Avatar>
+        <InfoContainer>
+          <MemberName>{member.name}</MemberName>
+          <Tooltip title={`Tip abonament: ${label}`}>
+            <SubscriptionInfo>
+              {Icon}
+              {label}
+            </SubscriptionInfo>
+          </Tooltip>
+        </InfoContainer>
+      </Container>
+    </MemberRow>
   );
 };
 

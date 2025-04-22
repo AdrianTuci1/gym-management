@@ -7,6 +7,8 @@ import OccupancyIndicator from '../components/courses/OccupancyIndicator';
 import NavigationMenuComponent from '../components/navigation/NavigationMenu';
 import Sales from '../components/sales/Sales';
 import SalesCart from '../components/sales/SalesCart';
+import MemberDetails from '../components/members/MemberDetails';
+import useTimelineStore from '../store/timelineStore';
 
 const DashboardContainer = styled(Box)({
   width: '100%',
@@ -126,6 +128,7 @@ const DashboardContent = ({ content, rightContent }) => {
 const Dashboard = () => {
   const [activeMenu, setActiveMenu] = useState('timeline');
   const [cart, setCart] = useState([]);
+  const { selectedMember } = useTimelineStore();
 
   const mockOccupancy = {
     gym: {
@@ -194,15 +197,23 @@ const Dashboard = () => {
   };
 
   const renderRightContent = () => {
+    if (selectedMember) {
+      return (
+        <RightPaneContainer sx={{ flex: 1 }}>
+          <MemberDetails />
+        </RightPaneContainer>
+      );
+    }
+
     switch (activeMenu) {
       case 'timeline':
         return (
           <>
             <RightPaneContainer sx={{ flex: 1 }}>
               <CourseList />
-            <OccupancySection>
-              <OccupancyIndicator occupancy={mockOccupancy} />
-            </OccupancySection>
+              <OccupancySection>
+                <OccupancyIndicator occupancy={mockOccupancy} />
+              </OccupancySection>
             </RightPaneContainer>
           </>
         );
