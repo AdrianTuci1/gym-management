@@ -1,80 +1,116 @@
-import React, { useState } from 'react';
-import './Sales.css';
+import React from 'react';
+import { Box, styled, Typography } from '@mui/material';
+import useCategoryStore from '../../store/categoryStore';
 
-// Mock products data - in a real app this would come from an API
-const mockProducts = [
-  { id: 1, name: 'Apa Plata', price: 5, stock: 100, category: 'bauturi' },
-  { id: 2, name: 'Apa Minerala', price: 6, stock: 100, category: 'bauturi' },
-  { id: 3, name: 'Proteine', price: 120, stock: 50, category: 'suplimente' },
-  { id: 4, name: 'Creatina', price: 80, stock: 30, category: 'suplimente' },
-  { id: 5, name: 'BCAA', price: 90, stock: 40, category: 'suplimente' },
-  { id: 6, name: 'Prosoape', price: 15, stock: 200, category: 'accesorii' },
-];
+const Container = styled(Box)({
+  padding: '24px',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '24px',
+});
 
-const singleEntry = {
-  id: 7,
-  name: 'Intrare Single',
-  price: 30,
-  stock: 999,
-  category: 'intrari'
-};
+const ProductsGrid = styled(Box)({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+  gap: '24px',
+  padding: '16px',
+  overflow: 'auto',
+});
 
-const categories = [
-  { id: 'all', name: 'Toate' },
-  { id: 'intrari', name: 'Intrări' },
-  { id: 'bauturi', name: 'Băuturi' },
-  { id: 'suplimente', name: 'Suplimente' },
-  { id: 'accesorii', name: 'Accesorii' }
-];
+const ProductCard = styled(Box)(({ theme }) => ({
+  padding: '24px',
+  borderRadius: '16px',
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  border: '1px solid rgba(0,0,0,0.05)',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '16px',
+  '&:hover': {
+    transform: 'translateY(-4px)',
+    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+  },
+}));
+
+const ProductContent = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '8px',
+});
+
+const PriceTag = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  color: '#ffffff',
+  padding: '8px 16px',
+  borderRadius: '8px',
+  fontWeight: 600,
+  fontSize: '1.1rem',
+  alignSelf: 'flex-start',
+}));
 
 const Sales = ({ onAddToCart }) => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const { selectedCategory } = useCategoryStore();
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-  };
+  // Mock products data - this should come from your backend
+  const products = [
+    { id: 'm1', name: 'Abonament Gold', price: 150, category: 'memberships', description: 'Acces nelimitat la toate facilitățile' },
+    { id: 'm2', name: 'Abonament Silver', price: 100, category: 'memberships', description: 'Acces limitat la facilități' },
+    { id: 's1', name: 'Sesiune PT', price: 80, category: 'services', description: 'Sesiune personalizată cu antrenor' },
+    { id: 's2', name: 'Masaj', price: 120, category: 'services', description: 'Masaj relaxant de 60 minute' },
+    { id: 'sp1', name: 'Proteine', price: 120, category: 'supplements', description: 'Proteine whey isolate' },
+    { id: 'sp2', name: 'Creatină', price: 80, category: 'supplements', description: 'Creatină monohidrat' },
+    { id: 'a1', name: 'Shaker', price: 30, category: 'accessories', description: 'Shaker 700ml' },
+    { id: 'a2', name: 'Prosoape', price: 15, category: 'accessories', description: 'Set de 2 prosoape' },
+    { id: 'd1', name: 'Apa Plata', price: 5, category: 'drinks', description: 'Sticlă 500ml' },
+    { id: 'd2', name: 'Băutură Proteică', price: 12, category: 'drinks', description: 'Băutură proteică 500ml' },
+  ];
 
   const filteredProducts = selectedCategory === 'all' 
-    ? [...mockProducts, singleEntry]
-    : [...mockProducts, singleEntry].filter(product => product.category === selectedCategory);
+    ? products 
+    : products.filter(product => product.category === selectedCategory);
+
+  const getCategoryName = (category) => {
+    const categoryMap = {
+      all: 'Toate Produsele',
+      memberships: 'Abonamente',
+      services: 'Servicii',
+      supplements: 'Suplimente',
+      accessories: 'Accesorii',
+      drinks: 'Băuturi',
+    };
+    return categoryMap[category] || category;
+  };
 
   return (
-    <div className="sales-container">
-      <div className="categories-sticky">
-        <div className="categories">
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              className={`category-tab ${selectedCategory === category.id ? 'active' : ''}`}
-              onClick={() => handleCategoryChange(category.id)}
-            >
-              {category.name}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="products-grid">
+    <Container>
+      <Typography variant="h5" sx={{ fontWeight: 600 }}>
+        {getCategoryName(selectedCategory)}
+      </Typography>
+      
+      <ProductsGrid>
         {filteredProducts.map((product) => (
-          <div 
+          <ProductCard 
             key={product.id}
-            className="product-card"
             onClick={() => onAddToCart(product)}
           >
-            <div className="product-content">
-              <h3 className="product-name">{product.name}</h3>
-              <div className="price-container">
-                <span className="product-price">{product.price}</span>
-                <span className="currency">RON</span>
-              </div>
-              {product.category !== 'intrari' && (
-                <p className="product-stock">Stoc disponibil: {product.stock}</p>
-              )}
-            </div>
-          </div>
+            <ProductContent>
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                {product.name}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {product.description}
+              </Typography>
+            </ProductContent>
+            <PriceTag>
+              {product.price} RON
+            </PriceTag>
+          </ProductCard>
         ))}
-      </div>
-    </div>
+      </ProductsGrid>
+    </Container>
   );
 };
 

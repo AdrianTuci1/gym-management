@@ -1,54 +1,56 @@
-import React from 'react';
-import { Box, styled, IconButton, Switch, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  styled,
+  Divider,
+  Typography,
+  IconButton,
+  Switch,
+  Button,
+  Menu,
+  MenuItem,
+} from '@mui/material';
 import TimelineIcon from '@mui/icons-material/Timeline';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import AddIcon from '@mui/icons-material/Add';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import RemoveIcon from '@mui/icons-material/Remove';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import useCategoryStore from '../../store/categoryStore';
 import useTimelineStore from '../../store/timelineStore';
 
-const MenuSection = styled(Box)({
-  display: 'flex',
-  justifyContent: 'flex-start',
-  borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+const Container = styled(Box)({
+  width: '100%',
+  height: '64px',
   backgroundColor: '#ffffff',
-});
-
-const NavigationMenu = styled(Box)({
-  display: 'flex',
-  gap: '16px',
-  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
-  backdropFilter: 'blur(8px)',
-  zIndex: 1000,
-  border: '1px solid rgba(0, 0, 0, 0.05)',
-  margin: '8px 0',
-  paddingLeft: '16px',
-});
-
-const NavIcon = styled(IconButton)({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
-  color: '#666',
-  width: '48px',
-  height: '48px',
-  transition: 'all 0.2s ease',
-  '&:hover': {
-    backgroundColor: 'rgba(0, 0, 0, 0.03)',
-    transform: 'translateY(-2px)',
-  },
-  '&.active': {
-    color: '#1a1a1a',
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    '& svg': {
-      transform: 'scale(1.1)',
-    },
-  },
-  '& svg': {
-    transition: 'transform 0.2s ease',
-  },
+  padding: '0 16px',
+  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
 });
+
+const MenuList = styled(List)({
+  display: 'flex',
+  gap: '8px',
+  padding: 0,
+});
+
+const NavMenuItem = styled(ListItem)(({ theme, selected }) => ({
+  padding: '8px 16px',
+  borderRadius: '8px',
+  cursor: 'pointer',
+  backgroundColor: selected ? theme.palette.primary.main : 'transparent',
+  color: selected ? '#ffffff' : theme.palette.text.primary,
+  '&:hover': {
+    backgroundColor: selected ? theme.palette.primary.dark : theme.palette.action.hover,
+  },
+  '& .MuiListItemIcon-root': {
+    color: selected ? '#ffffff' : theme.palette.text.secondary,
+  },
+}));
 
 const TimelineControls = styled(Box)({
   display: 'flex',
@@ -65,7 +67,28 @@ const SwitchContainer = styled(Box)({
   gap: '8px',
 });
 
-const NavigationMenuComponent = ({ activeMenu, setActiveMenu }) => {
+const CategorySection = styled(Box)({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  marginLeft: '16px',
+});
+
+const FilterButton = styled(Button)(({ theme }) => ({
+  padding: '8px 16px',
+  borderRadius: '8px',
+  backgroundColor: theme.palette.primary.main,
+  color: '#ffffff',
+  '&:hover': {
+    backgroundColor: theme.palette.primary.dark,
+  },
+  '& .MuiSvgIcon-root': {
+    marginRight: '8px',
+  },
+}));
+
+const NavigationMenu = ({ activeMenu, setActiveMenu }) => {
+  const { categories, selectedCategory, setSelectedCategory } = useCategoryStore();
   const { 
     zoomLevel, 
     setZoomLevel, 
@@ -74,6 +97,29 @@ const NavigationMenuComponent = ({ activeMenu, setActiveMenu }) => {
     autoDisconnect,
     setAutoDisconnect 
   } = useTimelineStore();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleMenuClick = (menu) => {
+    setActiveMenu(menu);
+    if (menu !== 'sales') {
+      setSelectedCategory('all');
+    }
+  };
+
+  const handleFilterClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleFilterClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleCategorySelect = (categoryId) => {
+    setSelectedCategory(categoryId);
+    handleFilterClose();
+  };
 
   const handleZoomIn = () => {
     setZoomLevel(Math.min(zoomLevel + 0.25, 2));
@@ -84,60 +130,104 @@ const NavigationMenuComponent = ({ activeMenu, setActiveMenu }) => {
   };
 
   return (
-    <MenuSection>
-      <NavigationMenu>
-        <NavIcon 
-          className={activeMenu === 'timeline' ? 'active' : ''}
-          onClick={() => setActiveMenu('timeline')}
+    <Container>
+      <MenuList>
+        <NavMenuItem
+          selected={activeMenu === 'timeline'}
+          onClick={() => handleMenuClick('timeline')}
         >
-          <TimelineIcon />
-        </NavIcon>
-        <NavIcon 
-          className={activeMenu === 'sales' ? 'active' : ''}
-          onClick={() => setActiveMenu('sales')}
-        >
-          <AttachMoneyIcon />
-        </NavIcon>
-        <NavIcon 
-          className={activeMenu === 'add' ? 'active' : ''}
-          onClick={() => setActiveMenu('add')}
-        >
-          <PersonAddIcon />
-        </NavIcon>
+          <ListItemIcon>
+            <TimelineIcon />
+          </ListItemIcon>
+          <ListItemText primary="Timeline" />
+        </NavMenuItem>
 
-        {activeMenu === 'timeline' && (
-          <TimelineControls>
-            <IconButton onClick={handleZoomOut} size="small">
-              <RemoveIcon />
-            </IconButton>
-            <IconButton onClick={handleZoomIn} size="small">
-              <AddIcon />
-            </IconButton>
-            <SwitchContainer>
-              <Switch
-                checked={showFullDay}
-                onChange={(e) => setShowFullDay(e.target.checked)}
-                size="small"
-              />
-              <Typography variant="body2">
-                {showFullDay ? 'Toată ziua' : 'Prezenți'}
-              </Typography>
-            </SwitchContainer>
-            <SwitchContainer>
-              <Switch
-                checked={autoDisconnect}
-                onChange={(e) => setAutoDisconnect(e.target.checked)}
-                size="small"
-              />
-              <Typography variant="body2">
-                Deconectare automată
-              </Typography>
-            </SwitchContainer>
-          </TimelineControls>
-        )}
-      </NavigationMenu>
-    </MenuSection>
+        <NavMenuItem
+          selected={activeMenu === 'sales'}
+          onClick={() => handleMenuClick('sales')}
+        >
+          <ListItemIcon>
+            <ShoppingCartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Vânzări" />
+        </NavMenuItem>
+
+        <NavMenuItem
+          selected={activeMenu === 'add'}
+          onClick={() => handleMenuClick('add')}
+        >
+          <ListItemIcon>
+            <AddIcon />
+          </ListItemIcon>
+          <ListItemText primary="Adaugă" />
+        </NavMenuItem>
+      </MenuList>
+
+      {activeMenu === 'timeline' && (
+        <TimelineControls>
+          <IconButton onClick={handleZoomOut} size="small">
+            <RemoveIcon />
+          </IconButton>
+          <IconButton onClick={handleZoomIn} size="small">
+            <AddIcon />
+          </IconButton>
+          <SwitchContainer>
+            <Switch
+              checked={showFullDay}
+              onChange={(e) => setShowFullDay(e.target.checked)}
+              size="small"
+            />
+            <Typography variant="body2">
+              {showFullDay ? 'Toată ziua' : 'Prezenți'}
+            </Typography>
+          </SwitchContainer>
+          <SwitchContainer>
+            <Switch
+              checked={autoDisconnect}
+              onChange={(e) => setAutoDisconnect(e.target.checked)}
+              size="small"
+            />
+            <Typography variant="body2">
+              Deconectare automată
+            </Typography>
+          </SwitchContainer>
+        </TimelineControls>
+      )}
+
+      {activeMenu === 'sales' && (
+        <CategorySection>
+          <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
+          <FilterButton
+            onClick={handleFilterClick}
+            startIcon={<FilterListIcon />}
+          >
+            Filtre
+          </FilterButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleFilterClose}
+            PaperProps={{
+              style: {
+                maxHeight: 300,
+                width: 200,
+              },
+            }}
+          >
+            {categories.map((category) => (
+              <MenuItem
+                key={category.id}
+                selected={selectedCategory === category.id}
+                onClick={() => handleCategorySelect(category.id)}
+              >
+                {category.name}
+              </MenuItem>
+            ))}
+          </Menu>
+        </CategorySection>
+      )}
+    </Container>
   );
 };
 
-export default NavigationMenuComponent; 
+export default NavigationMenu; 

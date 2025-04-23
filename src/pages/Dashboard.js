@@ -8,7 +8,9 @@ import NavigationMenuComponent from '../components/navigation/NavigationMenu';
 import Sales from '../components/sales/Sales';
 import SalesCart from '../components/sales/SalesCart';
 import MemberDetails from '../components/members/MemberDetails';
+import AddMember from '../components/members/AddMember';
 import useTimelineStore from '../store/timelineStore';
+import AvailablePackages from '../components/Packages/AvailablePackages';
 
 const DashboardContainer = styled(Box)({
   width: '100%',
@@ -128,6 +130,7 @@ const DashboardContent = ({ content, rightContent }) => {
 const Dashboard = () => {
   const [activeMenu, setActiveMenu] = useState('timeline');
   const [cart, setCart] = useState([]);
+  const [selectedPackage, setSelectedPackage] = useState(null);
   const { selectedMember } = useTimelineStore();
 
   const mockOccupancy = {
@@ -190,7 +193,10 @@ const Dashboard = () => {
       case 'sales':
         return <Sales onAddToCart={handleAddToCart} />;
       case 'add':
-        return <Box>Add Member Content</Box>;
+        return <AddMember 
+          selectedPackage={selectedPackage}
+          onPackageChange={setSelectedPackage}
+        />;
       default:
         return <Timeline />;
     }
@@ -226,6 +232,15 @@ const Dashboard = () => {
               onRemoveItem={handleRemoveItem}
               onConfirmSale={handleConfirmSale}
               onCancelSale={handleCancelSale}
+            />
+          </RightPaneContainer>
+        );
+      case 'add':
+        return (
+          <RightPaneContainer sx={{ flex: 1 }}>
+            <AvailablePackages 
+              selectedPackage={selectedPackage}
+              onSelectPackage={setSelectedPackage}
             />
           </RightPaneContainer>
         );
