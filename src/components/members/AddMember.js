@@ -159,7 +159,6 @@ const AddMember = ({ selectedPackage, onPackageChange }) => {
 
   return (
     <Container>
-      
       <FormContainer component="form" onSubmit={handleSubmit}>
         <AvatarContainer>
           <StyledAvatar

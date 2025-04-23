@@ -14,42 +14,21 @@ const MembershipCard = ({ membershipType, expiryDate, memberName, accessLevel, v
     }
   };
 
-  const getOverlayClass = (level) => {
-    switch (level) {
-      case 'vip':
-        return styles.overlayVip;
-      case 'premium':
-        return styles.overlayPremium;
-      default:
-        return styles.overlayRegular;
-    }
-  };
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('ro-RO');
   };
 
   return (
-    <div className={styles.card} style={{ borderColor: getAccessLevelColor(accessLevel) }}>
-      <div className={`${styles.overlay} ${getOverlayClass(accessLevel)}`} />
+    <div className={styles.card}>
       <div className={styles.cardContent}>
         <div className={styles.cardInfo}>
-          <div>
-            <div className={styles.header}>
-              <h2 className={styles.membershipType}>{membershipType}</h2>
-              <span className={styles.accessLevel} style={{ backgroundColor: getAccessLevelColor(accessLevel) }}>
-                {accessLevel.toUpperCase()}
-              </span>
-            </div>
-            <div className={styles.memberDetails}>
-              <p className={styles.memberName}>{memberName}</p>
-              <p className={styles.expiryDate}>Exp. {expiryDate}</p>
-            </div>
-          </div>
-          <div className={styles.stats}>
-            <p>Vizite: {visits}</p>
-            <p>Ultima vizită: {formatDate(lastVisit)}</p>
+          <div className={styles.memberDetails}>
+            <h2 className={styles.accessLevel} style={{ backgroundColor: getAccessLevelColor(accessLevel) }}>
+              {accessLevel.toUpperCase()}
+            </h2>
+            <p className={styles.memberName}>{memberName}</p>
+            <p className={styles.expiryDate}>Exp. {expiryDate}</p>
           </div>
         </div>
         <div className={styles.qrCode}>
