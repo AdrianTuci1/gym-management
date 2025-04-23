@@ -2,7 +2,7 @@ import React from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import styles from './MembershipCard.module.css';
 
-const MembershipCard = ({ membershipType, expiryDate, memberName, accessLevel, visits, lastVisit }) => {
+const MembershipCard = ({ membershipType, expiryDate, memberName, accessLevel }) => {
   const getAccessLevelColor = (level) => {
     switch (level) {
       case 'vip':

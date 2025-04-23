@@ -8,7 +8,9 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Typography
+  Typography,
+  useTheme,
+  useMediaQuery
 } from '@mui/material';
 import {
   FitnessCenter as GymIcon,
@@ -52,6 +54,15 @@ const NavButton = styled(Button)(({ theme, isActive }) => ({
   '& .MuiButton-startIcon': {
     marginRight: isActive ? '8px' : '0',
   },
+  [theme.breakpoints.down('lg')]: {
+    '& .MuiButton-startIcon': {
+      marginRight: 0,
+    },
+    '& .MuiButton-label': {
+      display: 'none',
+    },
+    padding: '8px',
+  },
 }));
 
 const NavIcon = styled(IconButton)({
@@ -71,6 +82,8 @@ const PublicNavbar = () => {
   const login = useAuthStore(state => state.login);
   const logout = useAuthStore(state => state.logout);
   const switchDemoUser = useAuthStore(state => state.switchDemoUser);
+  const theme = useTheme();
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -105,21 +118,21 @@ const PublicNavbar = () => {
           onClick={() => handleNavigation('/')}
           isActive={isActive('/')}
         >
-          {isActive('/') ? 'Sala de Fitness' : ''}
+          {isLargeScreen && isActive('/') ? 'Sala de Fitness' : ''}
         </NavButton>
         <NavButton
           startIcon={<PoolIcon />}
           onClick={() => handleNavigation('/packages')}
           isActive={isActive('/packages')}
         >
-          {isActive('/packages') ? 'Piscină' : ''}
+          {isLargeScreen && isActive('/packages') ? 'Piscină' : ''}
         </NavButton>
         <NavButton
           startIcon={<WellnessIcon />}
           onClick={() => handleNavigation('/services')}
           isActive={isActive('/services')}
         >
-          {isActive('/services') ? 'Wellness' : ''}
+          {isLargeScreen && isActive('/services') ? 'Wellness' : ''}
         </NavButton>
       </Box>
 
@@ -133,7 +146,7 @@ const PublicNavbar = () => {
               onClick={() => handleNavigation('/dashboard')}
               isActive={isActive('/dashboard')}
             >
-              {isActive('/dashboard') ? 'Dashboard' : ''}
+              {isLargeScreen && isActive('/dashboard') ? 'Dashboard' : ''}
             </NavButton>
           )}
           <NavIcon onClick={handleMenuOpen}>
@@ -163,7 +176,7 @@ const PublicNavbar = () => {
           onClick={handleLogin}
           isActive={isActive('/login')}
         >
-          {isActive('/login') ? 'Login' : ''}
+          {isLargeScreen && isActive('/login') ? 'Login' : ''}
         </NavButton>
       )}
     </NavContainer>
