@@ -1,38 +1,63 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Box, Typography, Container } from '@mui/material';
+import ReactMarkdown from 'react-markdown';
+import styles from './LandingPage.module.css';
+import InvertedCard from '../components/Hero/InvertedCard';
+import MembershipCard from '../components/MembershipCard';
+import gymDescription from '../content/gym-description.md';
+import useAuthStore from '../store/authStore';
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const user = useAuthStore(state => state.user);
+  
+  const title = "FitLife Center";
+  const identifier = "Fitness & Wellness";
   
   return (
-    <Container maxWidth="sm">
-      <Box
-        sx={{
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-        }}
-      >
-        <Typography variant="h3" component="h1" gutterBottom>
-          Gym Management
-        </Typography>
-        <Typography variant="h6" color="text.secondary" paragraph>
-          Sistem de management pentru sali de fitness
-        </Typography>
-        <Button
-          variant="contained"
-          size="large"
-          onClick={() => navigate('/dashboard')}
-          sx={{ mt: 4 }}
-        >
-          Accesează Dashboard
-        </Button>
-      </Box>
-    </Container>
+    <div className={styles.main}>
+      <section className={styles.hero}>
+        <InvertedCard />
+      </section>
+      
+      <section className={styles.descriptionMap}>
+        <div className={styles.description}>
+          <div className={styles.hotelInfo}>
+            <h1 className={styles.title}>{title}</h1>
+            <h3 className={styles.identifier}>{identifier}</h3>
+          </div>
+          <div className={styles.servicesDescription}>
+            {user ? (
+              <div className={styles.membershipCardContainer}>
+              <MembershipCard
+                membershipType={user.membershipType}
+                expiryDate={user.expiryDate}
+                memberName={user.name}
+                accessLevel={user.accessLevel}
+                visits={user.visits}
+                lastVisit={user.lastVisit}
+                personalTrainer={user.personalTrainer}
+              />
+              </div>
+            ) : (
+              <ReactMarkdown>{gymDescription}</ReactMarkdown>
+            )}
+          </div>
+        </div>
+        
+        <div className={styles.map}>
+          {/* <LocationMap position={position} /> */}
+        </div>
+      </section>
+
+      <section className={styles.services}>
+        {/* Facilities components will go here */}
+      </section>
+
+      <section className={styles.photos}>
+        {/* <SwipeableCarousel /> */}
+      </section>
+    </div>
   );
 };
 

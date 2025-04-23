@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material';
 import MainLayout from './components/layout/MainLayout';
 import PublicLayout from './components/layout/PublicLayout';
 import Dashboard from './pages/Dashboard';
 import LandingPage from './pages/LandingPage';
+import useAuthStore from './store/authStore';
 
 const theme = createTheme({
   palette: {
@@ -21,6 +22,17 @@ const theme = createTheme({
 });
 
 function App() {
+  const checkAuth = useAuthStore(state => state.checkAuth);
+  const loading = useAuthStore(state => state.loading);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Router>

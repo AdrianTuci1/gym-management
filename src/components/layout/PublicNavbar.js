@@ -1,10 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
-  AppBar, 
-  Toolbar, 
-  Button, 
   Box, 
+  Button, 
   Divider, 
   styled,
   IconButton,
@@ -13,40 +11,66 @@ import {
   Typography
 } from '@mui/material';
 import {
-  Home as HomeIcon,
-  CardMembership as PackagesIcon,
-  Handyman as ServicesIcon,
+  FitnessCenter as GymIcon,
+  Pool as PoolIcon,
+  SelfImprovement as WellnessIcon,
   Settings as SettingsIcon,
   Dashboard as DashboardIcon,
   Person as PersonIcon
 } from '@mui/icons-material';
+import useAuthStore from '../../store/authStore';
 
-const StyledAppBar = styled(AppBar)({
-  backgroundColor: '#ffffff',
-  color: '#1a1a1a',
-  boxShadow: 'none',
-  borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+const NavContainer = styled(Box)({
+  position: 'fixed',
+  top: '16px',
+  left: '50%',
+  transform: 'translateX(-50%)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '8px 16px',
+  borderRadius: '12px',
+  maxWidth: '50%',
+  zIndex: 1000,
+  backgroundColor: 'rgba(255, 255, 255, 0.75)',
+  backdropFilter: 'blur(8px)',
+  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+  border: '1px solid rgba(0, 0, 0, 0.05)',
 });
 
-const NavButton = styled(Button)({
-  color: '#1a1a1a',
+const NavButton = styled(Button)(({ theme, isActive }) => ({
+  color: isActive ? theme.palette.primary.main : '#1a1a1a',
   textTransform: 'none',
   margin: '0 8px',
+  minWidth: 'auto',
+  padding: '8px 16px',
+  borderRadius: '8px',
+  backgroundColor: isActive ? 'rgba(0, 0, 0, 0.04)' : 'transparent',
+  '&:hover': {
+    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+  },
+  '& .MuiButton-startIcon': {
+    marginRight: isActive ? '8px' : '0',
+  },
+}));
+
+const NavIcon = styled(IconButton)({
+  color: '#1a1a1a',
+  margin: '0 4px',
+  backgroundColor: 'transparent',
   '&:hover': {
     backgroundColor: 'rgba(0, 0, 0, 0.04)',
   },
 });
 
-const NavIcon = styled(IconButton)({
-  color: '#1a1a1a',
-  margin: '0 4px',
-});
-
 const PublicNavbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const isLoggedIn = true; // TODO: Replace with actual auth state
-  const isAdmin = true; // TODO: Replace with actual role check
+  const user = useAuthStore(state => state.user);
+  const login = useAuthStore(state => state.login);
+  const logout = useAuthStore(state => state.logout);
+  const switchDemoUser = useAuthStore(state => state.switchDemoUser);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -57,73 +81,92 @@ const PublicNavbar = () => {
   };
 
   const handleNavigation = (path) => {
-    navigate(path);
-    handleMenuClose();
+    if (path === '/logout') {
+      logout();
+      handleMenuClose();
+      navigate('/');
+    } else {
+      navigate(path);
+      handleMenuClose();
+    }
   };
 
+  const handleLogin = async () => {
+    await login();
+  };
+
+  const isActive = (path) => location.pathname === path;
+
   return (
-    <StyledAppBar position="static">
-      <Toolbar>
-        <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-          <NavButton
-            startIcon={<HomeIcon />}
-            onClick={() => handleNavigation('/')}
-          >
-            Home
-          </NavButton>
-          <NavButton
-            startIcon={<PackagesIcon />}
-            onClick={() => handleNavigation('/packages')}
-          >
-            Packages
-          </NavButton>
-          <NavButton
-            startIcon={<ServicesIcon />}
-            onClick={() => handleNavigation('/services')}
-          >
-            Services
-          </NavButton>
-        </Box>
+    <NavContainer>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <NavButton
+          startIcon={<GymIcon />}
+          onClick={() => handleNavigation('/')}
+          isActive={isActive('/')}
+        >
+          {isActive('/') ? 'Sala de Fitness' : ''}
+        </NavButton>
+        <NavButton
+          startIcon={<PoolIcon />}
+          onClick={() => handleNavigation('/packages')}
+          isActive={isActive('/packages')}
+        >
+          {isActive('/packages') ? 'Piscină' : ''}
+        </NavButton>
+        <NavButton
+          startIcon={<WellnessIcon />}
+          onClick={() => handleNavigation('/services')}
+          isActive={isActive('/services')}
+        >
+          {isActive('/services') ? 'Wellness' : ''}
+        </NavButton>
+      </Box>
 
-        <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
+      <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
 
-        {isLoggedIn ? (
-          <>
-            {isAdmin && (
-              <NavButton
-                startIcon={<DashboardIcon />}
-                onClick={() => handleNavigation('/dashboard')}
-              >
-                Dashboard
-              </NavButton>
-            )}
-            <NavIcon onClick={handleMenuOpen}>
-              <PersonIcon />
-            </NavIcon>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleMenuClose}
+      {user ? (
+        <>
+          {user.accessLevel === 'vip' && (
+            <NavButton
+              startIcon={<DashboardIcon />}
+              onClick={() => handleNavigation('/dashboard')}
+              isActive={isActive('/dashboard')}
             >
-              <MenuItem onClick={() => handleNavigation('/settings')}>
-                <SettingsIcon sx={{ mr: 1 }} />
-                Settings
-              </MenuItem>
-              <MenuItem onClick={() => handleNavigation('/logout')}>
-                <Typography color="error">Logout</Typography>
-              </MenuItem>
-            </Menu>
-          </>
-        ) : (
-          <NavButton
-            startIcon={<PersonIcon />}
-            onClick={() => handleNavigation('/login')}
+              {isActive('/dashboard') ? 'Dashboard' : ''}
+            </NavButton>
+          )}
+          <NavIcon onClick={handleMenuOpen}>
+            <PersonIcon />
+          </NavIcon>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
           >
-            Login
-          </NavButton>
-        )}
-      </Toolbar>
-    </StyledAppBar>
+            <MenuItem onClick={() => switchDemoUser()}>
+              <GymIcon sx={{ mr: 1 }} />
+              Schimbă Utilizator Demo
+            </MenuItem>
+            <MenuItem onClick={() => handleNavigation('/settings')}>
+              <SettingsIcon sx={{ mr: 1 }} />
+              Settings
+            </MenuItem>
+            <MenuItem onClick={() => handleNavigation('/logout')}>
+              <Typography color="error">Logout</Typography>
+            </MenuItem>
+          </Menu>
+        </>
+      ) : (
+        <NavButton
+          startIcon={<PersonIcon />}
+          onClick={handleLogin}
+          isActive={isActive('/login')}
+        >
+          {isActive('/login') ? 'Login' : ''}
+        </NavButton>
+      )}
+    </NavContainer>
   );
 };
 
