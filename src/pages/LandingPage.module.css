@@ -107,7 +107,6 @@
   background: var(--secondary);
   display: flex;
   gap: 20px;
-  padding: 14px;
 }
 
 .service {

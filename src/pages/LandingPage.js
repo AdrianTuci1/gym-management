@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import styles from './LandingPage.module.css';
 import InvertedCard from '../components/Hero/InvertedCard';
 import MembershipCard from '../components/MembershipCard';
+import Facilities from '../components/Facilities/Facilities';
 import gymDescription from '../content/gym-description.md';
 import useAuthStore from '../store/authStore';
 
@@ -51,7 +52,7 @@ const LandingPage = () => {
       </section>
 
       <section className={styles.services}>
-        {/* Facilities components will go here */}
+        <Facilities />
       </section>
 
       <section className={styles.photos}>

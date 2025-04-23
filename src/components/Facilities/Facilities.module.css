@@ -1,0 +1,168 @@
+.facilitiesContainer {
+  padding: 4rem 2rem;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 2rem;
+}
+
+.title {
+  text-align: left;
+  font-size: 2.5rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: #333;
+  padding-left: 2rem;
+}
+
+.facilitiesList {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 2rem;
+  padding-left: 2rem;
+  flex-wrap: wrap;
+}
+
+.facilityItem {
+  padding: 1rem 2rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #666;
+  transition: all 0.3s ease;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.facilityItem:hover {
+  color: #333;
+}
+
+.facilityItem.active {
+  color: #333;
+  border-bottom: 2px solid #333;
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+  padding: 2rem 0;
+}
+
+.slidesContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  overflow: hidden;
+}
+
+.slidesTrack {
+  display: flex;
+  width: calc(100% * (var(--total-slides, 1)));
+  transition: transform 0.5s ease;
+}
+
+.slide {
+  flex: 0 0 calc(100% / 3);
+  padding: 0 1rem;
+}
+
+.imageFrame {
+  position: relative;
+  width: 100%;
+  padding-top: 133.33%; /* 3:4 aspect ratio */
+  background-color: #e9ecef;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.slide img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slideCaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+  color: white;
+  text-align: center;
+}
+
+.slideCaption h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.slideCaption p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.arrow:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.arrowLeft {
+  left: 1rem;
+}
+
+.arrowRight {
+  right: 1rem;
+}
+
+.missingImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e9ecef;
+  color: #666;
+  font-size: 1.2rem;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .facilitiesList {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .slide {
+    flex: 0 0 100%;
+  }
+} 
