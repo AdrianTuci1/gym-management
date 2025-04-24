@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './PackageCard.module.css';
 
-const PackageCard = ({ package: pkg }) => {
+const PackageCard = ({ package: pkg, isPartial, position }) => {
   const getTierColor = (tier) => {
     switch (tier) {
       case 'gold':
@@ -18,7 +18,7 @@ const PackageCard = ({ package: pkg }) => {
   };
 
   return (
-    <div className={`${styles.packageCard} ${getTierColor(pkg.tier)}`}>
+    <div className={`${styles.packageCard} ${getTierColor(pkg.tier)} ${isPartial ? styles.partial : ''} ${styles[position]}`}>
       <div className={styles.packageHeader}>
         <h3 className={styles.packageName}>{pkg.name}</h3>
         <div className={styles.priceContainer}>

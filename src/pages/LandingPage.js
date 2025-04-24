@@ -5,7 +5,7 @@ import styles from './LandingPage.module.css';
 import InvertedCard from '../components/Hero/InvertedCard';
 import MembershipCard from '../components/MembershipCard';
 import Facilities from '../components/Facilities/Facilities';
-import Packages from '../components/Packages/Packages';
+import Packages from '../components/Packages/landingpackages/Packages';
 import gymDescription from '../content/gym-description.md';
 import useAuthStore from '../store/authStore';
 

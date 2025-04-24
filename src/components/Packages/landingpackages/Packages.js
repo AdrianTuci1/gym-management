@@ -84,35 +84,81 @@ const packages = [
 
 const Packages = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const visiblePackages = 3;
 
   const nextSlide = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setCurrentIndex((prevIndex) => 
       prevIndex + 1 <= packages.length - visiblePackages ? prevIndex + 1 : 0
     );
+    setTimeout(() => setIsTransitioning(false), 500);
   };
 
   const prevSlide = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setCurrentIndex((prevIndex) => 
       prevIndex - 1 >= 0 ? prevIndex - 1 : packages.length - visiblePackages
     );
+    setTimeout(() => setIsTransitioning(false), 500);
+  };
+
+  const getVisiblePackages = () => {
+    const visible = [];
+    const totalPackages = packages.length;
+    
+    // Add current packages
+    for (let i = 0; i < visiblePackages; i++) {
+      const index = (currentIndex + i) % totalPackages;
+      visible.push({
+        ...packages[index],
+        isPartial: false,
+        position: 'center'
+      });
+    }
+
+    // Add preview package
+    const previewIndex = (currentIndex + visiblePackages) % totalPackages;
+    visible.push({
+      ...packages[previewIndex],
+      isPartial: true,
+      position: 'right'
+    });
+
+    return visible;
   };
 
   return (
     <div className={styles.packagesContainer}>
-      <h2 className={styles.title}>PACHETE</h2>
+      <div className={styles.headerContainer}>
+        <h2 className={styles.title}>PACHETE</h2>
+        <div className={styles.arrowsContainer}>
+          <button className={styles.arrowButton} onClick={prevSlide}>
+            <span className={styles.arrow}>←</span>
+          </button>
+          <button className={styles.arrowButton} onClick={nextSlide}>
+            <span className={styles.arrow}>→</span>
+          </button>
+        </div>
+      </div>
       <div className={styles.carouselContainer}>
-        <button className={styles.arrowButton} onClick={prevSlide}>
-          <span className={styles.arrow}>←</span>
-        </button>
-        <div className={styles.packagesWrapper}>
-          {packages.slice(currentIndex, currentIndex + visiblePackages).map((pkg) => (
-            <PackageCard key={pkg.id} package={pkg} />
+        <div 
+          className={`${styles.packagesWrapper} ${isTransitioning ? styles.transitioning : ''}`}
+          style={{
+            transform: `translateX(calc(-${currentIndex * (100 / visiblePackages)}%))`
+          }}
+        >
+          {getVisiblePackages().map((pkg, index) => (
+            <PackageCard 
+              key={pkg.id}
+              package={pkg}
+              isPartial={pkg.isPartial}
+              position={pkg.position}
+            />
           ))}
         </div>
-        <button className={styles.arrowButton} onClick={nextSlide}>
-          <span className={styles.arrow}>→</span>
-        </button>
       </div>
     </div>
   );
