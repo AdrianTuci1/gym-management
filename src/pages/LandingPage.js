@@ -6,8 +6,20 @@ import InvertedCard from '../components/Hero/InvertedCard';
 import MembershipCard from '../components/MembershipCard';
 import Facilities from '../components/Facilities/Facilities';
 import Packages from '../components/Packages/landingpackages/Packages';
+import Classes from '../components/Classes/Classes';
+import PhotoGallery from '../components/PhotoGallery/PhotoGallery';
 import gymDescription from '../content/gym-description.md';
 import useAuthStore from '../store/authStore';
+
+// Sample photos - replace with your actual photos
+const galleryPhotos = [
+  '/images/gym1.jpg',
+  '/images/gym2.jpg',
+  '/images/gym3.jpg',
+  '/images/gym4.jpg',
+  '/images/gym5.jpg',
+  '/images/gym6.jpg',
+];
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -31,15 +43,15 @@ const LandingPage = () => {
           <div className={styles.servicesDescription}>
             {user ? (
               <div className={styles.membershipCardContainer}>
-              <MembershipCard
-                membershipType={user.membershipType}
-                expiryDate={user.expiryDate}
-                memberName={user.name}
-                accessLevel={user.accessLevel}
-                visits={user.visits}
-                lastVisit={user.lastVisit}
-                personalTrainer={user.personalTrainer}
-              />
+                <MembershipCard
+                  membershipType={user.membershipType}
+                  expiryDate={user.expiryDate}
+                  memberName={user.name}
+                  accessLevel={user.accessLevel}
+                  visits={user.visits}
+                  lastVisit={user.lastVisit}
+                  personalTrainer={user.personalTrainer}
+                />
               </div>
             ) : (
               <ReactMarkdown>{gymDescription}</ReactMarkdown>
@@ -60,8 +72,12 @@ const LandingPage = () => {
         <Packages />
       </section>
 
+      <section className={styles.classes}>
+        <Classes />
+      </section>
+
       <section className={styles.photos}>
-        {/* <SwipeableCarousel /> */}
+        <PhotoGallery photos={galleryPhotos} />
       </section>
     </div>
   );
