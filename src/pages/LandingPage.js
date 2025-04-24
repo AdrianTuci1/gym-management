@@ -5,6 +5,7 @@ import styles from './LandingPage.module.css';
 import InvertedCard from '../components/Hero/InvertedCard';
 import MembershipCard from '../components/MembershipCard';
 import Facilities from '../components/Facilities/Facilities';
+import Packages from '../components/Packages/Packages';
 import gymDescription from '../content/gym-description.md';
 import useAuthStore from '../store/authStore';
 
@@ -53,6 +54,10 @@ const LandingPage = () => {
 
       <section className={styles.services}>
         <Facilities />
+      </section>
+
+      <section className={styles.packages}>
+        <Packages />
       </section>
 
       <section className={styles.photos}>

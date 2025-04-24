@@ -38,16 +38,22 @@ const FacilityCarousel = ({ images, title }) => {
             <div key={index} className={styles.slide}>
               <div className={styles.imageFrame}>
                 {image ? (
-                  <>
-                    <img src={image} alt={`${title} ${index + 1}`}/>
-                    <div className={styles.slideCaption}>
-                      <h3>{title}</h3>
-                      <p>Grand Hotel Brasov | Cazare in Brasov</p>
-                    </div>
-                  </>
+                  <img src={image} alt={`${title} ${index + 1}`}/>
                 ) : (
                   <div className={styles.missingImage}>
                     Fotografie lipsa
+                  </div>
+                )}
+              </div>
+              <div className={styles.captionFrame}>
+                {image ? (
+                  <div className={styles.slideCaption}>
+                    <h3>{title}</h3>
+                    <p>Grand Hotel Brasov | Cazare in Brasov</p>
+                  </div>
+                ) : (
+                  <div className={styles.missingCaption}>
+                    Caption lipsa
                   </div>
                 )}
               </div>

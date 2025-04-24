@@ -131,6 +131,11 @@
   padding-block: 100px;
 }
 
+.pachages {
+  width: calc(100% + 100px);
+  margin: 0 -50px;
+}
+
 @media (max-width: 1024px) {
   .photos {
     width: calc(100% + 40px);
