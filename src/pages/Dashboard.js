@@ -11,6 +11,7 @@ import MemberDetails from '../components/members/MemberDetails';
 import AddMember from '../components/members/AddMember';
 import useTimelineStore from '../store/timelineStore';
 import AvailablePackages from '../components/Packages/AvailablePackages';
+import useNavigationStore from '../store/navigationStore';
 
 const DashboardContainer = styled(Box)({
   width: '100%',
@@ -128,10 +129,14 @@ const DashboardContent = ({ content, rightContent }) => {
 };
 
 const Dashboard = () => {
-  const [activeMenu, setActiveMenu] = useState('timeline');
+  const { activeMenu } = useNavigationStore();
   const [cart, setCart] = useState([]);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const { selectedMember } = useTimelineStore();
+
+  const setActiveMenu = (menu) => {
+    useNavigationStore.getState().setActiveMenu(menu);
+  };
 
   const mockOccupancy = {
     gym: {

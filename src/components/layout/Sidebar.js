@@ -12,8 +12,9 @@ const StyledSidebar = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  justifyContent: 'center',
   padding: '16px 8px',
-  backgroundColor: '#1a1a1a',
+  backgroundColor: 'transparent',
   height: 'calc(100vh - 64px)', // Subtract navbar height
   position: 'fixed',
   left: 0,
@@ -45,11 +46,12 @@ const Sidebar = ({ onMenuChange }) => {
           <IconButton
             onClick={() => handleItemClick(index)}
             sx={{
-              color: activeItem === index ? '#ffffff' : 'rgba(255, 255, 255, 0.7)',
+              color: activeItem === index ? 'white' : 'rgba(26, 26, 26, 0.7)',
               marginBottom: '16px',
-              backgroundColor: activeItem === index ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+              backgroundColor: activeItem === index ? '#1a1a1a' : 'transparent',
+              borderRadius: '24px',
               '&:hover': {
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                backgroundColor: activeItem === index ? '#1a1a1a' : 'rgba(0, 0, 0, 0.04)',
               },
             }}
           >
