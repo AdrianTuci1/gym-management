@@ -1,5 +1,4 @@
 .facilitiesContainer {
-  padding: 1rem 2rem;
   background-color: #f8f9fa;
   display: flex;
   flex-direction: column;
@@ -12,6 +11,7 @@
 .title {
   text-align: left;
   font-size: 2.5rem;
+  padding: 1rem 2rem;
   font-weight: 300;
   letter-spacing: 0.2em;
   color: #333;
@@ -20,13 +20,15 @@
 .facilitiesList {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  gap: 2rem;
   flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0rem 2rem;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .facilityItem {
-  padding: 1rem 2rem;
+  padding: 0.75rem 1.5rem;
   cursor: pointer;
   font-size: 1.1rem;
   color: #666;
@@ -166,14 +168,24 @@
   right: 1rem;
 }
 
-@media (max-width: 768px) {
-  .facilitiesList {
-    flex-direction: column;
-    align-items: flex-start;
+@media (max-width: 1024px) {
+  .slide {
+    flex: 0 0 calc((100% - 2rem) / 2);
   }
+}
 
+@media (max-width: 768px) {
   .slide {
     flex: 0 0 100%;
+  }
+  
+  .facilitiesList {
+    gap: 0.75rem;
+  }
+  
+  .facilityItem {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
   }
   
   .slidesContainer {

@@ -1,11 +1,9 @@
 .packagesContainer {
-  padding: 4rem 0;
   background-color: #f5f5f5;
   width: 100%;
+  padding-block: 2rem;
   overflow: hidden;
   position: relative;
-  margin: 0 -50px 0 0;
-  width: calc(100% + 50px);
 }
 
 .headerContainer {

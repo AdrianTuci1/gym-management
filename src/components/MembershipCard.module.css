@@ -136,4 +136,72 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 12px;
+  }
+
+  .cardInfo {
+    padding-right: 16px;
+    margin: 12px;
+  }
+
+  .membershipType {
+    font-size: 1.2rem;
+  }
+
+  .accessLevel {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+
+  .memberName {
+    font-size: 1.1rem;
+  }
+
+  .expiryDate {
+    font-size: 0.9rem;
+  }
+
+  .qrCode {
+    min-width: 150px;
+    padding: 12px;
+    margin-right: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 8px;
+  }
+
+  .cardInfo {
+    padding-right: 12px;
+    margin: 8px;
+  }
+
+  .membershipType {
+    font-size: 1rem;
+  }
+
+  .accessLevel {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+
+  .memberName {
+    font-size: 0.9rem;
+  }
+
+  .expiryDate {
+    font-size: 0.8rem;
+  }
+
+  .qrCode {
+    min-width: 120px;
+    padding: 8px;
+    margin-right: 8px;
+  }
 } 
