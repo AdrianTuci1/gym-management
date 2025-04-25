@@ -5,6 +5,7 @@ import MainLayout from './components/layout/MainLayout';
 import PublicLayout from './components/layout/PublicLayout';
 import Dashboard from './pages/Dashboard';
 import LandingPage from './pages/LandingPage';
+import Packages from './pages/Packages';
 import useAuthStore from './store/authStore';
 
 const theme = createTheme({
@@ -38,6 +39,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<PublicLayout><LandingPage /></PublicLayout>} />
+          <Route path="/packages" element={<PublicLayout><Packages /></PublicLayout>} />
           <Route path="/dashboard/*" element={<MainLayout><Dashboard /></MainLayout>} />
         </Routes>
       </Router>

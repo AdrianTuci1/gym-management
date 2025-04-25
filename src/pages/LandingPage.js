@@ -8,6 +8,7 @@ import Facilities from '../components/Facilities/Facilities';
 import Packages from '../components/Packages/landingpackages/Packages';
 import Classes from '../components/Classes/Classes';
 import PhotoGallery from '../components/PhotoGallery/PhotoGallery';
+import Footer from '../components/Footer/Footer';
 import gymDescription from '../content/gym-description.md';
 import useAuthStore from '../store/authStore';
 
@@ -71,6 +72,8 @@ const LandingPage = () => {
       <Classes />
 
       <PhotoGallery photos={galleryPhotos} />
+
+      <Footer />
     </div>
   );
 };

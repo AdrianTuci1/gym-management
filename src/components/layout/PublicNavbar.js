@@ -14,11 +14,12 @@ import {
 } from '@mui/material';
 import {
   FitnessCenter as GymIcon,
-  Pool as PoolIcon,
+  CardMembership as MembershipIcon,
   SelfImprovement as WellnessIcon,
   Settings as SettingsIcon,
   Dashboard as DashboardIcon,
-  Person as PersonIcon
+  Person as PersonIcon,
+  Home
 } from '@mui/icons-material';
 import useAuthStore from '../../store/authStore';
 
@@ -114,18 +115,18 @@ const PublicNavbar = () => {
     <NavContainer>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <NavButton
-          startIcon={<GymIcon />}
+          startIcon={<Home />}
           onClick={() => handleNavigation('/')}
           isActive={isActive('/')}
         >
-          {isLargeScreen && isActive('/') ? 'Sala de Fitness' : ''}
+          {isLargeScreen && isActive('/') ? 'Acasa' : ''}
         </NavButton>
         <NavButton
-          startIcon={<PoolIcon />}
+          startIcon={<MembershipIcon />}
           onClick={() => handleNavigation('/packages')}
           isActive={isActive('/packages')}
         >
-          {isLargeScreen && isActive('/packages') ? 'Piscină' : ''}
+          {isLargeScreen && isActive('/packages') ? 'Abonamente' : ''}
         </NavButton>
         <NavButton
           startIcon={<WellnessIcon />}
