@@ -1,7 +1,10 @@
 .packagesContainer {
   background-color: #f5f5f5;
   width: 100%;
+  min-height: 500px;
   padding-block: 2rem;
+  outline: 3px solid rgb(191, 191, 191);
+  border-radius: 24px;
   overflow: hidden;
   position: relative;
 }
@@ -12,11 +15,12 @@
   align-items: center;
   margin-bottom: 3rem;
   padding-right: 2rem;
+  padding-left: 2rem;
 }
 
 .title {
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 400;
   color: #333;
   text-transform: uppercase;
   letter-spacing: 2px;

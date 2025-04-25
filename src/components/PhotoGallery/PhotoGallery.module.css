@@ -1,33 +1,40 @@
 .galleryContainer {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+  display: flex;
 }
 
 .galleryGrid {
   display: grid;
-  grid-template-columns: 1.618fr 1fr; /* Golden ratio columns */
-  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
   gap: 1rem;
-  height: 600px; /* Adjust based on your needs */
+  height: auto;
+}
+
+/* Mobile styles */
+@media (min-width: 768px) {
+  .galleryGrid {
+    grid-template-columns: 1.618fr 1fr;
+    height: 600px;
+  }
 }
 
 .galleryItem {
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: #f0f0f0; /* Light gray background for empty containers */
+  background-color: #f0f0f0;
+  aspect-ratio: 4/3;
 }
 
+/* Remove hover effect */
 .galleryItem:hover {
-  transform: scale(1.02);
+  transform: none;
 }
 
 .galleryItem img {
@@ -37,10 +44,17 @@
 }
 
 .boxLabel {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: white;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Mobile styles */
+@media (min-width: 768px) {
+  .boxLabel {
+    font-size: 2rem;
+  }
 }
 
 /* Main large image on the left */
@@ -51,38 +65,67 @@
 
 /* Right side container */
 .rightSide {
-  grid-column: 2;
-  grid-row: 1;
   display: grid;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
   gap: 1rem;
+}
+
+/* Mobile styles */
+@media (min-width: 768px) {
+  .rightSide {
+    grid-column: 2;
+    grid-row: 1;
+    grid-template-rows: 1fr 1fr;
+  }
 }
 
 /* Top right image */
 .topRight {
-  grid-row: 1;
+  grid-row: 2;
+}
+
+/* Mobile styles */
+@media (min-width: 768px) {
+  .topRight {
+    grid-row: 1;
+  }
 }
 
 /* Bottom right container */
 .bottomRight {
-  grid-row: 2;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  grid-row: 3;
+}
+
+/* Mobile styles */
+@media (min-width: 768px) {
+  .bottomRight {
+    grid-row: 2;
+  }
 }
 
 /* Plus button container */
 .plusContainer {
-  background-color: #e0e0e0; /* Slightly darker gray for plus button container */
+  background-color: #e0e0e0;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .plusButton {
-  font-size: 3rem;
-  color: #666; /* Darker gray for plus symbol */
+  font-size: 2rem;
+  color: #666;
   transition: transform 0.3s ease;
+}
+
+/* Mobile styles */
+@media (min-width: 768px) {
+  .plusButton {
+    font-size: 3rem;
+  }
 }
 
 .plusContainer:hover .plusButton {
@@ -105,8 +148,8 @@
 
 .fullscreenContent {
   position: relative;
-  width: 90%;
-  height: 90%;
+  width: 95%;
+  height: 95%;
   max-width: 1200px;
 }
 
@@ -123,11 +166,18 @@
   background: none;
   border: none;
   color: white;
-  font-size: 2rem;
+  font-size: 1.5rem;
   cursor: pointer;
   z-index: 1001;
   padding: 0.5rem;
   transition: transform 0.3s ease;
+}
+
+/* Mobile styles */
+@media (min-width: 768px) {
+  .closeButton {
+    font-size: 2rem;
+  }
 }
 
 .closeButton:hover {
@@ -141,11 +191,18 @@
   background: none;
   border: none;
   color: white;
-  font-size: 2rem;
+  font-size: 1.5rem;
   cursor: pointer;
   z-index: 1001;
   padding: 1rem;
   transition: transform 0.3s ease;
+}
+
+/* Mobile styles */
+@media (min-width: 768px) {
+  .navButton {
+    font-size: 2rem;
+  }
 }
 
 .navButton:hover {
@@ -153,9 +210,20 @@
 }
 
 .navButton:first-of-type {
-  left: 1rem;
+  left: 0.5rem;
 }
 
 .navButton:last-of-type {
-  right: 1rem;
+  right: 0.5rem;
+}
+
+/* Mobile styles */
+@media (min-width: 768px) {
+  .navButton:first-of-type {
+    left: 1rem;
+  }
+  
+  .navButton:last-of-type {
+    right: 1rem;
+  }
 } 

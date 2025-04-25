@@ -64,21 +64,13 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className={styles.services}>
-        <Facilities />
-      </section>
+      <Facilities />
 
-      <section className={styles.packages}>
-        <Packages />
-      </section>
+      <Packages />
 
-      <section className={styles.classes}>
-        <Classes />
-      </section>
+      <Classes />
 
-      <section className={styles.photos}>
-        <PhotoGallery photos={galleryPhotos} />
-      </section>
+      <PhotoGallery photos={galleryPhotos} />
     </div>
   );
 };
